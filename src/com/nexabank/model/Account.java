@@ -32,7 +32,15 @@ public class Account {
         return transactionHistory;
     }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    public void addTransaction(Transaction transaction) {
+        transactionHistory.add(transaction);
     }
 }
