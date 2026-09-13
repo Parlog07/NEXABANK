@@ -5,7 +5,7 @@ import com.nexabank.model.Client;
 import com.nexabank.service.BankService;
 import com.nexabank.utils.StatementFileManager;
 
-import java.io.IOException;
+import com.nexabank.exception.FileAccessException;
 import java.util.Scanner;
 
 public class ClientMenu {
@@ -184,7 +184,7 @@ public class ClientMenu {
 
             statementFileManager.readStatement(account);
 
-        } catch (IOException e) {
+        } catch (FileAccessException e) {
             System.out.println("File error: " + e.getMessage());
         }
     }

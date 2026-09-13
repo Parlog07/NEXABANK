@@ -1,5 +1,6 @@
 package com.nexabank.service;
 
+import com.nexabank.exception.FileAccessException;
 import com.nexabank.exception.InsufficientBalanceException;
 import com.nexabank.exception.InvalidAmountException;
 import com.nexabank.model.Account;
@@ -7,16 +8,18 @@ import com.nexabank.model.Transaction;
 import com.nexabank.model.TransactionType;
 import com.nexabank.utils.StatementFileManager;
 
-import java.io.IOException;
 import java.util.UUID;
 
 public class BankService {
 
-    private StatementFileManager statementFileManager = new StatementFileManager();
+    private StatementFileManager statementFileManager =
+            new StatementFileManager();
 
-
-    public void deposit(Account account, double amount)
-            throws InvalidAmountException, IOException {
+    public void deposit(
+            Account account,
+            double amount
+    ) throws InvalidAmountException,
+            FileAccessException {
 
         if (amount <= 0) {
             throw new InvalidAmountException(
@@ -44,11 +47,12 @@ public class BankService {
         );
     }
 
-
-    public void withdraw(Account account, double amount)
-            throws InvalidAmountException,
+    public void withdraw(
+            Account account,
+            double amount
+    ) throws InvalidAmountException,
             InsufficientBalanceException,
-            IOException {
+            FileAccessException {
 
         if (amount <= 0) {
             throw new InvalidAmountException(
@@ -82,14 +86,13 @@ public class BankService {
         );
     }
 
-
     public void transfer(
             Account sourceAccount,
             Account destinationAccount,
             double amount
     ) throws InvalidAmountException,
             InsufficientBalanceException,
-            IOException {
+            FileAccessException {
 
         if (amount <= 0) {
             throw new InvalidAmountException(
