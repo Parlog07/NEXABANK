@@ -3,7 +3,9 @@ package com.nexabank.main;
 import com.nexabank.model.Account;
 import com.nexabank.model.AccountType;
 import com.nexabank.model.Client;
+import com.nexabank.service.AccountService;
 import com.nexabank.service.BankService;
+import com.nexabank.service.ClientService;
 import com.nexabank.utils.StatementFileManager;
 
 import java.util.Scanner;
@@ -15,8 +17,10 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         BankService bankService = new BankService();
-        StatementFileManager statementFileManager = new StatementFileManager();
-
+        AccountService accountService = new AccountService();
+        ClientService clientService = new ClientService();
+        StatementFileManager statementFileManager =
+                new StatementFileManager();
 
         Client client = new Client(
                 "CL001",
@@ -25,7 +29,6 @@ public class Main {
                 "john@nexabank.com",
                 "1234"
         );
-
 
         Account currentAccount = new Account(
                 "C1001",
@@ -37,10 +40,8 @@ public class Main {
                 AccountType.SAVINGS
         );
 
-
         client.addAccount(currentAccount);
         client.addAccount(savingsAccount);
-
 
         int choice;
 
@@ -50,7 +51,6 @@ public class Main {
             System.out.println("1. Client");
             System.out.println("2. Manager");
             System.out.println("0. Exit");
-
             System.out.print("Choose an option: ");
 
             choice = scanner.nextInt();
@@ -67,7 +67,13 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("Manager menu coming next...");
+                    ManagerMenu.show(
+                            scanner,
+                            client,
+                            accountService,
+                            clientService,
+                            statementFileManager
+                    );
                     break;
 
                 case 0:
