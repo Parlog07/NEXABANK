@@ -51,9 +51,11 @@ public class Main {
             System.out.println("1. Client");
             System.out.println("2. Manager");
             System.out.println("0. Exit");
-            System.out.print("Choose an option: ");
 
-            choice = scanner.nextInt();
+            choice = readInt(
+                    scanner,
+                    "Choose an option: "
+            );
 
             switch (choice) {
 
@@ -87,5 +89,29 @@ public class Main {
         } while (choice != 0);
 
         scanner.close();
+    }
+
+    private static int readInt(
+            Scanner scanner,
+            String message
+    ) {
+
+        while (true) {
+
+            System.out.print(message);
+
+            String input = scanner.nextLine();
+
+            try {
+
+                return Integer.parseInt(input);
+
+            } catch (NumberFormatException e) {
+
+                System.out.println(
+                        "Invalid input. Please enter a number."
+                );
+            }
+        }
     }
 }
