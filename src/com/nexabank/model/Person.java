@@ -1,10 +1,11 @@
 package com.nexabank.model;
 
 public abstract class Person {
-    private string lastname;
-    private string firstname;
-    private string email;
-    private string password;
+
+    private String lastName;
+    private String firstName;
+    private String email;
+    private String password;
 
     public Person(String lastName, String firstName, String email, String password) {
         this.lastName = lastName;
@@ -13,35 +14,35 @@ public abstract class Person {
         this.password = password;
     }
 
-    public string getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(string lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public string getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(string firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public string getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(string email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public string getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(string password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }
