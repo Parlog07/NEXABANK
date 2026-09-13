@@ -1,12 +1,12 @@
 package com.nexabank.main;
 
+import com.nexabank.exception.FileAccessException;
 import com.nexabank.model.Account;
 import com.nexabank.model.AccountType;
 import com.nexabank.model.Client;
 import com.nexabank.service.AccountService;
 import com.nexabank.service.ClientService;
 import com.nexabank.utils.StatementFileManager;
-import com.nexabank.exception.FileAccessException;
 
 import java.util.Scanner;
 
@@ -31,9 +31,11 @@ public class ManagerMenu {
             System.out.println("4. Update client information");
             System.out.println("5. View client bank statement");
             System.out.println("0. Back");
-            System.out.print("Choose an option: ");
 
-            choice = scanner.nextInt();
+            choice = readInt(
+                    scanner,
+                    "Choose an option: "
+            );
 
             switch (choice) {
 
@@ -78,16 +80,19 @@ public class ManagerMenu {
                     break;
 
                 case 0:
-                    System.out.println("Back to main menu...");
+                    System.out.println(
+                            "Back to main menu..."
+                    );
                     break;
 
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println(
+                            "Invalid choice."
+                    );
             }
 
         } while (choice != 0);
     }
-
 
     private static void createAccount(
             Scanner scanner,
@@ -95,29 +100,57 @@ public class ManagerMenu {
             AccountService accountService
     ) {
 
-        System.out.print("Enter new account number: ");
-        String accountNumber = scanner.next();
+        System.out.print(
+                "Enter new account number: "
+        );
 
-        System.out.println("Choose account type:");
-        System.out.println("1. CURRENT");
-        System.out.println("2. SAVINGS");
-        System.out.print("Choice: ");
+        String accountNumber =
+                scanner.nextLine().trim();
 
-        int typeChoice = scanner.nextInt();
+        if (client.findAccount(accountNumber) != null) {
+
+            System.out.println(
+                    "Account already exists."
+            );
+
+            return;
+        }
+
+        System.out.println(
+                "Choose account type:"
+        );
+
+        System.out.println(
+                "1. CURRENT"
+        );
+
+        System.out.println(
+                "2. SAVINGS"
+        );
+
+        int typeChoice = readInt(
+                scanner,
+                "Choice: "
+        );
 
         AccountType accountType;
 
         if (typeChoice == 1) {
 
-            accountType = AccountType.CURRENT;
+            accountType =
+                    AccountType.CURRENT;
 
         } else if (typeChoice == 2) {
 
-            accountType = AccountType.SAVINGS;
+            accountType =
+                    AccountType.SAVINGS;
 
         } else {
 
-            System.out.println("Invalid account type.");
+            System.out.println(
+                    "Invalid account type."
+            );
+
             return;
         }
 
@@ -127,9 +160,10 @@ public class ManagerMenu {
                 accountType
         );
 
-        System.out.println("Account created successfully.");
+        System.out.println(
+                "Account created successfully."
+        );
     }
-
 
     private static void modifyAccount(
             Scanner scanner,
@@ -139,29 +173,48 @@ public class ManagerMenu {
 
         try {
 
-            System.out.print("Enter account number: ");
-            String accountNumber = scanner.next();
+            System.out.print(
+                    "Enter account number: "
+            );
 
-            System.out.println("Choose new account type:");
-            System.out.println("1. CURRENT");
-            System.out.println("2. SAVINGS");
-            System.out.print("Choice: ");
+            String accountNumber =
+                    scanner.nextLine().trim();
 
-            int typeChoice = scanner.nextInt();
+            System.out.println(
+                    "Choose new account type:"
+            );
+
+            System.out.println(
+                    "1. CURRENT"
+            );
+
+            System.out.println(
+                    "2. SAVINGS"
+            );
+
+            int typeChoice = readInt(
+                    scanner,
+                    "Choice: "
+            );
 
             AccountType newType;
 
             if (typeChoice == 1) {
 
-                newType = AccountType.CURRENT;
+                newType =
+                        AccountType.CURRENT;
 
             } else if (typeChoice == 2) {
 
-                newType = AccountType.SAVINGS;
+                newType =
+                        AccountType.SAVINGS;
 
             } else {
 
-                System.out.println("Invalid account type.");
+                System.out.println(
+                        "Invalid account type."
+                );
+
                 return;
             }
 
@@ -171,16 +224,18 @@ public class ManagerMenu {
                     newType
             );
 
-            System.out.println("Account updated successfully.");
+            System.out.println(
+                    "Account updated successfully."
+            );
 
         } catch (Exception e) {
 
             System.out.println(
-                    "Error: " + e.getMessage()
+                    "Error: "
+                            + e.getMessage()
             );
         }
     }
-
 
     private static void closeAccount(
             Scanner scanner,
@@ -190,24 +245,30 @@ public class ManagerMenu {
 
         try {
 
-            System.out.print("Enter account number to close: ");
-            String accountNumber = scanner.next();
+            System.out.print(
+                    "Enter account number to close: "
+            );
+
+            String accountNumber =
+                    scanner.nextLine().trim();
 
             accountService.closeAccount(
                     client,
                     accountNumber
             );
 
-            System.out.println("Account closed successfully.");
+            System.out.println(
+                    "Account closed successfully."
+            );
 
         } catch (Exception e) {
 
             System.out.println(
-                    "Error: " + e.getMessage()
+                    "Error: "
+                            + e.getMessage()
             );
         }
     }
-
 
     private static void updateClient(
             Scanner scanner,
@@ -215,14 +276,26 @@ public class ManagerMenu {
             ClientService clientService
     ) {
 
-        System.out.print("Enter new first name: ");
-        String firstName = scanner.next();
+        System.out.print(
+                "Enter new first name: "
+        );
 
-        System.out.print("Enter new last name: ");
-        String lastName = scanner.next();
+        String firstName =
+                scanner.nextLine().trim();
 
-        System.out.print("Enter new email: ");
-        String email = scanner.next();
+        System.out.print(
+                "Enter new last name: "
+        );
+
+        String lastName =
+                scanner.nextLine().trim();
+
+        System.out.print(
+                "Enter new email: "
+        );
+
+        String email =
+                scanner.nextLine().trim();
 
         clientService.updateClient(
                 client,
@@ -244,15 +317,22 @@ public class ManagerMenu {
 
         try {
 
-            System.out.print("Enter account number: ");
-            String accountNumber = scanner.next();
+            System.out.print(
+                    "Enter account number: "
+            );
+
+            String accountNumber =
+                    scanner.nextLine().trim();
 
             Account account =
                     client.findAccount(accountNumber);
 
             if (account == null) {
 
-                System.out.println("Account not found.");
+                System.out.println(
+                        "Account not found."
+                );
+
                 return;
             }
 
@@ -260,13 +340,40 @@ public class ManagerMenu {
                     "\n===== BANK STATEMENT ====="
             );
 
-            statementFileManager.readStatement(account);
+            statementFileManager
+                    .readStatement(account);
 
         } catch (FileAccessException e) {
 
             System.out.println(
-                    "File error: " + e.getMessage()
+                    "File error: "
+                            + e.getMessage()
             );
+        }
+    }
+
+    private static int readInt(
+            Scanner scanner,
+            String message
+    ) {
+
+        while (true) {
+
+            System.out.print(message);
+
+            String input =
+                    scanner.nextLine().trim();
+
+            try {
+
+                return Integer.parseInt(input);
+
+            } catch (NumberFormatException e) {
+
+                System.out.println(
+                        "Invalid input. Please enter a number."
+                );
+            }
         }
     }
 }
