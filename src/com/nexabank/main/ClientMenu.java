@@ -1,11 +1,11 @@
 package com.nexabank.main;
 
+import com.nexabank.exception.FileAccessException;
 import com.nexabank.model.Account;
 import com.nexabank.model.Client;
 import com.nexabank.service.BankService;
 import com.nexabank.utils.StatementFileManager;
 
-import com.nexabank.exception.FileAccessException;
 import java.util.Scanner;
 
 public class ClientMenu {
@@ -20,6 +20,7 @@ public class ClientMenu {
         int choice;
 
         do {
+
             System.out.println("\n===== CLIENT MENU =====");
             System.out.println("1. View balance");
             System.out.println("2. Deposit");
@@ -27,9 +28,11 @@ public class ClientMenu {
             System.out.println("4. Transfer");
             System.out.println("5. View bank statement");
             System.out.println("0. Back");
-            System.out.print("Choose an option: ");
 
-            choice = scanner.nextInt();
+            choice = readInt(
+                    scanner,
+                    "Choose an option: "
+            );
 
             switch (choice) {
 
@@ -38,45 +41,82 @@ public class ClientMenu {
                     break;
 
                 case 2:
-                    deposit(scanner, client, bankService);
+                    deposit(
+                            scanner,
+                            client,
+                            bankService
+                    );
                     break;
 
                 case 3:
-                    withdraw(scanner, client, bankService);
+                    withdraw(
+                            scanner,
+                            client,
+                            bankService
+                    );
                     break;
 
                 case 4:
-                    transfer(scanner, client, bankService);
+                    transfer(
+                            scanner,
+                            client,
+                            bankService
+                    );
                     break;
 
                 case 5:
-                    viewStatement(scanner, client, statementFileManager);
+                    viewStatement(
+                            scanner,
+                            client,
+                            statementFileManager
+                    );
                     break;
 
                 case 0:
-                    System.out.println("Back to main menu...");
+                    System.out.println(
+                            "Back to main menu..."
+                    );
                     break;
 
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println(
+                            "Invalid choice."
+                    );
             }
 
         } while (choice != 0);
     }
-    private static void viewBalance(Scanner scanner, Client client) {
 
-        System.out.print("Enter account number: ");
-        String accountNumber = scanner.next();
+    private static void viewBalance(
+            Scanner scanner,
+            Client client
+    ) {
 
-        Account account = client.findAccount(accountNumber);
+        System.out.print(
+                "Enter account number: "
+        );
+
+        String accountNumber =
+                scanner.nextLine().trim();
+
+        Account account =
+                client.findAccount(accountNumber);
 
         if (account == null) {
-            System.out.println("Account not found.");
+
+            System.out.println(
+                    "Account not found."
+            );
+
             return;
         }
 
-        System.out.println("Balance: " + account.getBalance());
+        System.out.println(
+                "Balance: "
+                        + account.getBalance()
+        );
     }
+
     private static void deposit(
             Scanner scanner,
             Client client,
@@ -84,27 +124,49 @@ public class ClientMenu {
     ) {
 
         try {
-            System.out.print("Enter account number: ");
-            String accountNumber = scanner.next();
 
-            Account account = client.findAccount(accountNumber);
+            System.out.print(
+                    "Enter account number: "
+            );
+
+            String accountNumber =
+                    scanner.nextLine().trim();
+
+            Account account =
+                    client.findAccount(accountNumber);
 
             if (account == null) {
-                System.out.println("Account not found.");
+
+                System.out.println(
+                        "Account not found."
+                );
+
                 return;
             }
 
-            System.out.print("Enter amount: ");
-            double amount = scanner.nextDouble();
+            double amount = readDouble(
+                    scanner,
+                    "Enter amount: "
+            );
 
-            bankService.deposit(account, amount);
+            bankService.deposit(
+                    account,
+                    amount
+            );
 
-            System.out.println("Deposit successful.");
+            System.out.println(
+                    "Deposit successful."
+            );
 
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+
+            System.out.println(
+                    "Error: "
+                            + e.getMessage()
+            );
         }
     }
+
     private static void withdraw(
             Scanner scanner,
             Client client,
@@ -112,27 +174,49 @@ public class ClientMenu {
     ) {
 
         try {
-            System.out.print("Enter account number: ");
-            String accountNumber = scanner.next();
 
-            Account account = client.findAccount(accountNumber);
+            System.out.print(
+                    "Enter account number: "
+            );
+
+            String accountNumber =
+                    scanner.nextLine().trim();
+
+            Account account =
+                    client.findAccount(accountNumber);
 
             if (account == null) {
-                System.out.println("Account not found.");
+
+                System.out.println(
+                        "Account not found."
+                );
+
                 return;
             }
 
-            System.out.print("Enter amount: ");
-            double amount = scanner.nextDouble();
+            double amount = readDouble(
+                    scanner,
+                    "Enter amount: "
+            );
 
-            bankService.withdraw(account, amount);
+            bankService.withdraw(
+                    account,
+                    amount
+            );
 
-            System.out.println("Withdrawal successful.");
+            System.out.println(
+                    "Withdrawal successful."
+            );
 
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+
+            System.out.println(
+                    "Error: "
+                            + e.getMessage()
+            );
         }
     }
+
     private static void transfer(
             Scanner scanner,
             Client client,
@@ -140,31 +224,63 @@ public class ClientMenu {
     ) {
 
         try {
-            System.out.print("Source account number: ");
-            String sourceNumber = scanner.next();
 
-            System.out.print("Destination account number: ");
-            String destinationNumber = scanner.next();
+            System.out.print(
+                    "Source account number: "
+            );
 
-            Account source = client.findAccount(sourceNumber);
-            Account destination = client.findAccount(destinationNumber);
+            String sourceNumber =
+                    scanner.nextLine().trim();
 
-            if (source == null || destination == null) {
-                System.out.println("Account not found.");
+            System.out.print(
+                    "Destination account number: "
+            );
+
+            String destinationNumber =
+                    scanner.nextLine().trim();
+
+            Account source =
+                    client.findAccount(sourceNumber);
+
+            Account destination =
+                    client.findAccount(destinationNumber);
+
+            if (
+                    source == null
+                            || destination == null
+            ) {
+
+                System.out.println(
+                        "Account not found."
+                );
+
                 return;
             }
 
-            System.out.print("Enter amount: ");
-            double amount = scanner.nextDouble();
+            double amount = readDouble(
+                    scanner,
+                    "Enter amount: "
+            );
 
-            bankService.transfer(source, destination, amount);
+            bankService.transfer(
+                    source,
+                    destination,
+                    amount
+            );
 
-            System.out.println("Transfer successful.");
+            System.out.println(
+                    "Transfer successful."
+            );
 
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+
+            System.out.println(
+                    "Error: "
+                            + e.getMessage()
+            );
         }
     }
+
     private static void viewStatement(
             Scanner scanner,
             Client client,
@@ -172,21 +288,85 @@ public class ClientMenu {
     ) {
 
         try {
-            System.out.print("Enter account number: ");
-            String accountNumber = scanner.next();
 
-            Account account = client.findAccount(accountNumber);
+            System.out.print(
+                    "Enter account number: "
+            );
+
+            String accountNumber =
+                    scanner.nextLine().trim();
+
+            Account account =
+                    client.findAccount(accountNumber);
 
             if (account == null) {
-                System.out.println("Account not found.");
+
+                System.out.println(
+                        "Account not found."
+                );
+
                 return;
             }
 
-            statementFileManager.readStatement(account);
+            statementFileManager
+                    .readStatement(account);
 
         } catch (FileAccessException e) {
-            System.out.println("File error: " + e.getMessage());
+
+            System.out.println(
+                    "File error: "
+                            + e.getMessage()
+            );
         }
     }
 
+    private static int readInt(
+            Scanner scanner,
+            String message
+    ) {
+
+        while (true) {
+
+            System.out.print(message);
+
+            String input =
+                    scanner.nextLine().trim();
+
+            try {
+
+                return Integer.parseInt(input);
+
+            } catch (NumberFormatException e) {
+
+                System.out.println(
+                        "Invalid input. Please enter a number."
+                );
+            }
+        }
+    }
+
+    private static double readDouble(
+            Scanner scanner,
+            String message
+    ) {
+
+        while (true) {
+
+            System.out.print(message);
+
+            String input =
+                    scanner.nextLine().trim();
+
+            try {
+
+                return Double.parseDouble(input);
+
+            } catch (NumberFormatException e) {
+
+                System.out.println(
+                        "Invalid amount. Please enter a valid number."
+                );
+            }
+        }
+    }
 }
